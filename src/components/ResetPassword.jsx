@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Login.module.css' // Import CSS module styles
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import API_URL from '../Config';
 
 const ResetPassword = () => {
 
@@ -31,7 +32,7 @@ const ResetPassword = () => {
       if(goodPassword&&goodConfirmPassword){
         console.log('here')
         try {
-          const response = await axios.post(`http://192.168.0.102:3001/accounts/resetpassword/${token}`, {
+          const response = await axios.post(`${API_URL}/accounts/resetpassword/${token}`, {
             password: password,
             confirmPassword: confirmPassword
           });
@@ -39,8 +40,9 @@ const ResetPassword = () => {
           alert(response.data.message)
           window.location.reload();
         } catch (error) {
+          console.log(error.response.data.error)
           setResponseMessage(error.response.data.error)
-          alert(responseMessage)
+          alert(error.response.data.error)
           window.location.reload();
         }
       }
